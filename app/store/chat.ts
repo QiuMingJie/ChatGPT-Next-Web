@@ -426,6 +426,7 @@ export const useChatStore = createPersistStore(
             });
           },
           onFinish(message) {
+            console.info("finish" + message);
             botMessage.streaming = false;
             if (message) {
               botMessage.content = message;
