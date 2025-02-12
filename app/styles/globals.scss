@@ -363,6 +363,19 @@ pre {
   }
 }
 
+.user-input-container {
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-start;
+
+  .password-eye {
+    padding: 10px 14px;
+  }
+
+  .password-input {
+    min-width: 80%;
+  }
+}
 .password-input-container {
   max-width: 50%;
   display: flex;
