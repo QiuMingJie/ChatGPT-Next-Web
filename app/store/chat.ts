@@ -259,7 +259,6 @@ export const useChatStore = createPersistStore(
             ...currentSession.mask.modelConfig,
           },
         };
-
         set((state) => ({
           currentSessionIndex: 0,
           sessions: [newSession, ...state.sessions],
@@ -306,7 +305,7 @@ export const useChatStore = createPersistStore(
 
       newSession(mask?: Mask) {
         const session = createEmptySession();
-
+        console.log(111, mask, session);
         if (mask) {
           const config = useAppConfig.getState();
           const globalModelConfig = config.modelConfig;
@@ -925,7 +924,6 @@ export const useChatStore = createPersistStore(
           s.mask.modelConfig.compressProviderName = "";
         });
       }
-
       return newState as any;
     },
   },

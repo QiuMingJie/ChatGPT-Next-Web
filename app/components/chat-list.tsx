@@ -1,5 +1,3 @@
-import DeleteIcon from "../icons/delete.svg";
-
 import styles from "./home.module.scss";
 import {
   DragDropContext,
@@ -86,7 +84,7 @@ export function ChatItem(props: {
             </>
           )}
 
-          <div
+          {/* <div
             className={styles["chat-item-delete"]}
             onClickCapture={(e) => {
               props.onDelete?.();
@@ -95,7 +93,7 @@ export function ChatItem(props: {
             }}
           >
             <DeleteIcon />
-          </div>
+          </div> */}
         </div>
       )}
     </Draggable>
@@ -130,7 +128,6 @@ export function ChatList(props: { narrow?: boolean }) {
 
     moveSession(source.index, destination.index);
   };
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="chat-list">

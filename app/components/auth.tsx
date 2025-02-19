@@ -19,6 +19,7 @@ import {
   trackAuthorizationPageButtonToCPaymentClick,
 } from "../utils/auth-settings-events";
 import clsx from "clsx";
+import { userLogin } from "@/app/components/service";
 
 const storage = safeLocalStorage();
 const crypto = require("crypto");
@@ -39,12 +40,23 @@ export function AuthPage() {
     // 请求登录接口
     const hashPwd = await hashPassword(accessStore.userPwd);
     console.log(accessStore.userName, hashPwd);
-    // accessStore
-    //   .login(accessStore.userName, accessStore.userPwd)
-    //   .then((res) => {
-
-    //   })
-    // navigate(Path.Chat);
+    const params = {
+      createTime: Date.now(),
+      remark: "",
+      userId: accessStore.userName,
+      userName: accessStore.userName,
+      userPassword: hashPwd,
+      userPhone: "",
+      userType: "",
+    };
+    userLogin(params)
+      .then((res: { status: number }) => {
+        console.log(res);
+        if (res.code === "200") {
+          navigate(Path.Chat);
+        }
+      })
+      .catch(() => {});
   };
   const goSaas = () => {
     trackAuthorizationPageButtonToCPaymentClick();
