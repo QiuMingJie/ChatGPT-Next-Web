@@ -17,6 +17,8 @@ import {
   XAI_BASE_URL,
   CHATGLM_BASE_URL,
   SILICONFLOW_BASE_URL,
+  CHAT_NEW_TCM,
+  OpenaiPath,
 } from "../constant";
 import { getHeaders } from "../client/api";
 import { getClientConfig } from "../config/client";
@@ -34,6 +36,8 @@ const DEFAULT_OPENAI_URL = isApp ? OPENAI_BASE_URL : ApiPath.OpenAI;
 const DEFAULT_GOOGLE_URL = isApp ? GEMINI_BASE_URL : ApiPath.Google;
 
 const DEFAULT_ANTHROPIC_URL = isApp ? ANTHROPIC_BASE_URL : ApiPath.Anthropic;
+
+const CHAT_NEW_TCMS = isApp ? CHAT_NEW_TCM : OpenaiPath.newTcmChat;
 
 const DEFAULT_BAIDU_URL = isApp ? BAIDU_BASE_URL : ApiPath.Baidu;
 
@@ -68,6 +72,7 @@ const DEFAULT_ACCESS_STATE = {
   // openai
   openaiUrl: DEFAULT_OPENAI_URL,
   openaiApiKey: "",
+  useId: "",
 
   // azure
   azureUrl: "",
@@ -75,14 +80,15 @@ const DEFAULT_ACCESS_STATE = {
   azureApiVersion: "2023-08-01-preview",
 
   // google ai studio
-  googleUrl: DEFAULT_GOOGLE_URL,
-  googleApiKey: "",
-  googleApiVersion: "v1",
-  googleSafetySettings: GoogleSafetySettingsThreshold.BLOCK_ONLY_HIGH,
+  newChatUrl: CHAT_NEW_TCMS,
+  newChatApiKey: "",
+  newChatApiVersion: "v3",
+  newChatSafetySettings: GoogleSafetySettingsThreshold.BLOCK_ONLY_HIGH,
 
   // user
   userName: "",
   userPwd: "",
+  userId: "",
 
   // anthropic
   anthropicUrl: DEFAULT_ANTHROPIC_URL,
@@ -179,6 +185,10 @@ export const useAccessStore = createPersistStore(
 
     isValidGoogle() {
       return ensure(get(), ["googleApiKey"]);
+    },
+
+    isValidUserId() {
+      return ensure(get(), ["userId"]);
     },
 
     isValidAnthropic() {

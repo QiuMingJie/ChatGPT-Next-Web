@@ -29,7 +29,7 @@ import {
 } from "@/app/utils";
 import { RequestPayload } from "./openai";
 import { fetch } from "@/app/utils/stream";
-
+import { chatNewTCMchat } from "@/app/components/service";
 export class DeepSeekApi implements LLMApi {
   private disableListModels = true;
 
@@ -106,7 +106,16 @@ export class DeepSeekApi implements LLMApi {
     const shouldStream = !!options.config.stream;
     const controller = new AbortController();
     options.onController?.(controller);
-
+    const msg = requestPayload.messages[requestPayload.messages.length - 1];
+    const parmPayload = {
+      answer: "",
+      datetime: "",
+      id: "",
+      orgQuestion: msg.content,
+      remark: "",
+      toDeepSeekQuestion: JSON.stringify(requestPayload),
+      userId: msg.role,
+    };
     try {
       const chatPath = this.path(DeepSeek.ChatPath);
       const chatPayload = {
@@ -134,6 +143,9 @@ export class DeepSeekApi implements LLMApi {
           .getAsTools(
             useChatStore.getState().currentSession().mask?.plugin || [],
           );
+        chatNewTCMchat(parmPayload).then((res: any) => {
+          console.log(res);
+        });
         return streamWithThink(
           chatPath,
           requestPayload,

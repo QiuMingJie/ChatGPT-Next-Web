@@ -1080,7 +1080,6 @@ function _Chat() {
   };
 
   const doSubmit = (userInput: string) => {
-    console.info(userInput);
     if (userInput.trim() === "" && isEmpty(attachImages)) return;
     const matchCommand = chatCommands.match(userInput);
     console.info(matchCommand);

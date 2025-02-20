@@ -50,10 +50,15 @@ export function AuthPage() {
       userType: "",
     };
     userLogin(params)
-      .then((res: { status: number }) => {
+      .then((res: any) => {
         console.log(res);
         if (res.code === "200") {
-          navigate(Path.Chat);
+          accessStore.update((access) => {
+            access.userName = res.data.userName;
+            access.userPwd = res.data.userPassword;
+            access.userId = res.data.userId;
+          });
+          navigate(Path.Home);
         }
       })
       .catch(() => {});
