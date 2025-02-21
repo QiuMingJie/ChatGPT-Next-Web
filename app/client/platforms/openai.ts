@@ -298,7 +298,7 @@ export class ChatGPTApi implements LLMApi {
       orgQuestion: msg.content,
       remark: "",
       toDeepSeekQuestion: JSON.stringify(requestPayload),
-      userId: msg.role,
+      userId: useAccessStore.getState().userId,
     };
     try {
       let chatPath = "";
