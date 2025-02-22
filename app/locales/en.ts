@@ -21,7 +21,7 @@ const en: LocaleType = {
       ? `😆 Oops, there's an issue. No worries:
      \\ 1️⃣ New here? [Click to start chatting now 🚀](${SAAS_CHAT_UTM_URL})
      \\ 2️⃣ Want to use your own OpenAI resources? [Click here](/#/settings) to change settings ⚙️`
-      : `您还没进行登录，点击此进行登录`,
+      : `You haven't logged in yet,[Click here](/#/auth) to login`,
   },
   Auth: {
     Return: "Return",
