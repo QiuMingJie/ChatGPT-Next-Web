@@ -73,11 +73,16 @@ const DEFAULT_ACCESS_STATE = {
   openaiUrl: DEFAULT_OPENAI_URL,
   openaiApiKey: "",
   useId: "",
+  googleUrl: "",
 
+  googleSafetySettings: "",
   // azure
   azureUrl: "",
   azureApiKey: "",
+  googleApiKey: "",
   azureApiVersion: "2023-08-01-preview",
+  googleSafetySetting: "",
+  googleApiVersion: "",
 
   // google ai studio
   newChatUrl: CHAT_NEW_TCMS,

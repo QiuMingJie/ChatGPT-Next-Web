@@ -79,6 +79,7 @@ export interface DalleRequestPayload {
   size: ModelSize;
   quality: DalleQuality;
   style: DalleStyle;
+  messages?: string;
 }
 
 export class ChatGPTApi implements LLMApi {
@@ -241,6 +242,7 @@ export class ChatGPTApi implements LLMApi {
         options.messages.slice(-1)?.pop() as any,
       );
       requestPayload = {
+        messages: "",
         model: options.config.model,
         prompt,
         // URLs are only valid for 60 minutes after the image has been generated.
@@ -290,12 +292,12 @@ export class ChatGPTApi implements LLMApi {
     const shouldStream = !isDalle3 && !!options.config.stream;
     const controller = new AbortController();
     options.onController?.(controller);
-    const msg = requestPayload.messages[requestPayload.messages.length - 1];
+    const msg = requestPayload.messages?.[requestPayload.messages.length - 1];
     const parmPayload = {
       answer: "",
       datetime: "",
       id: "",
-      orgQuestion: msg.content,
+      orgQuestion: typeof msg === "object" ? msg?.content : msg || "",
       remark: "",
       toDeepSeekQuestion: JSON.stringify(requestPayload),
       userId: useAccessStore.getState().userId,
