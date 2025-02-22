@@ -382,6 +382,18 @@ const en: LocaleType = {
           SubTitle: "Select and input a specific API version",
         },
       },
+      User: {
+        UserName: {
+          Title: "",
+          SubTitle: "",
+          Placeholder: "",
+        },
+        Password: {
+          Title: "",
+          SubTitle: "",
+          Placeholder: "",
+        },
+      },
       Baidu: {
         ApiKey: {
           Title: "Baidu API Key",
