@@ -211,7 +211,8 @@ export type ToastProps = {
 export function Toast(props: ToastProps) {
   return (
     <div className={styles["toast-container"]}>
-      <div className={styles["toast-content"]}>
+      {/* 隐藏进入弹窗 */}
+      {/* <div className={styles["toast-content"]}>
         <span>{props.content}</span>
         {props.action && (
           <button
@@ -224,7 +225,7 @@ export function Toast(props: ToastProps) {
             {props.action.text}
           </button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
