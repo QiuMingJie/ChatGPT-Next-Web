@@ -1847,7 +1847,7 @@ function _Chat() {
                             </div>
                             {!isUser && (
                               <div className={styles["chat-model-name"]}>
-                                DeepSeek
+                                AI机器人
                                 {/* {message.model} */}
                               </div>
                             )}
