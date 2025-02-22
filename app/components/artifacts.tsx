@@ -9,15 +9,10 @@ import {
 import { useParams } from "react-router";
 import { IconButton } from "./button";
 import { nanoid } from "nanoid";
-import ExportIcon from "../icons/share.svg";
-import CopyIcon from "../icons/copy.svg";
-import DownloadIcon from "../icons/download.svg";
 import GithubIcon from "../icons/github.svg";
-import LoadingButtonIcon from "../icons/loading.svg";
 import ReloadButtonIcon from "../icons/reload.svg";
 import Locale from "../locales";
-import { Modal, showToast } from "./ui-lib";
-import { copyToClipboard, downloadAs } from "../utils";
+import { showToast } from "./ui-lib";
 import { Path, ApiPath, REPO_URL } from "@/app/constant";
 import { Loading } from "./home";
 import styles from "./artifacts.module.scss";
@@ -143,7 +138,7 @@ export function ArtifactsShareButton({
           });
   return (
     <>
-      <div className="window-action-button" style={style}>
+      {/* <div className="window-action-button" style={style}>
         <IconButton
           icon={loading ? <LoadingButtonIcon /> : <ExportIcon />}
           bordered
@@ -161,8 +156,8 @@ export function ArtifactsShareButton({
               .finally(() => setLoading(false));
           }}
         />
-      </div>
-      {show && (
+      </div> */}
+      {/* {show && (
         <div className="modal-mask">
           <Modal
             title={Locale.Export.Artifacts.Title}
@@ -197,7 +192,7 @@ export function ArtifactsShareButton({
             </div>
           </Modal>
         </div>
-      )}
+      )} */}
     </>
   );
 }

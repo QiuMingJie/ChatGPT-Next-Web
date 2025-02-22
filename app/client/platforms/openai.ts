@@ -8,6 +8,8 @@ import {
   Azure,
   REQUEST_TIMEOUT_MS,
   ServiceProvider,
+  REQUEST_TIMEOUT_MS_FOR_THINKING,
+  CHAT_NEW_TCM,
 } from "@/app/constant";
 import {
   ChatMessageTool,
@@ -21,7 +23,7 @@ import {
   preProcessImageContent,
   uploadImage,
   base64Image2Blob,
-  streamWithThink,
+  stream,
 } from "@/app/utils/chat";
 import { cloudflareAIGatewayUrl } from "@/app/utils/cloudflare";
 import { ModelSize, DalleQuality, DalleStyle } from "@/app/typing";
@@ -41,9 +43,9 @@ import {
   getMessageTextContent,
   isVisionModel,
   isDalle3 as _isDalle3,
-  getTimeoutMSByModel,
 } from "@/app/utils";
 import { fetch } from "@/app/utils/stream";
+import { chatNewTCMchat } from "@/app/components/service";
 
 export interface OpenAIListModelResponse {
   object: string;
@@ -115,6 +117,41 @@ export class ChatGPTApi implements LLMApi {
       baseUrl = "https://" + baseUrl;
     }
 
+    console.log("[Proxy Endpoint] ", baseUrl, path);
+
+    // try rebuild url, when using cloudflare ai gateway in client
+    return cloudflareAIGatewayUrl([baseUrl, path].join("/"));
+  }
+
+  newpath(path: string): string {
+    const accessStore = useAccessStore.getState();
+    let baseUrl = "";
+    const isAzure = path.includes("deployments");
+    if (accessStore.useCustomConfig) {
+      if (isAzure && !accessStore.isValidAzure()) {
+        throw Error(
+          "incomplete azure config, please check it in your settings page",
+        );
+      }
+
+      baseUrl = isAzure ? accessStore.azureUrl : accessStore.openaiUrl;
+    }
+    if (baseUrl.length === 0) {
+      const isApp = !!getClientConfig()?.isApp;
+      const apiPath = isAzure ? ApiPath.Azure : CHAT_NEW_TCM;
+      baseUrl = isApp ? CHAT_NEW_TCM : apiPath;
+    }
+
+    if (baseUrl.endsWith("/")) {
+      baseUrl = baseUrl.slice(0, baseUrl.length - 1);
+    }
+    if (
+      !baseUrl.startsWith("http") &&
+      !isAzure &&
+      !baseUrl.startsWith(ApiPath.OpenAI)
+    ) {
+      baseUrl = "https://" + baseUrl;
+    }
     console.log("[Proxy Endpoint] ", baseUrl, path);
 
     // try rebuild url, when using cloudflare ai gateway in client
@@ -253,7 +290,16 @@ export class ChatGPTApi implements LLMApi {
     const shouldStream = !isDalle3 && !!options.config.stream;
     const controller = new AbortController();
     options.onController?.(controller);
-
+    const msg = requestPayload.messages[requestPayload.messages.length - 1];
+    const parmPayload = {
+      answer: "",
+      datetime: "",
+      id: "",
+      orgQuestion: msg.content,
+      remark: "",
+      toDeepSeekQuestion: JSON.stringify(requestPayload),
+      userId: useAccessStore.getState().userId,
+    };
     try {
       let chatPath = "";
       if (modelConfig.providerName === ServiceProvider.Azure) {
@@ -286,6 +332,10 @@ export class ChatGPTApi implements LLMApi {
           isDalle3 ? OpenaiPath.ImagePath : OpenaiPath.ChatPath,
         );
       }
+      let newPaths = "";
+      newPaths = this.newpath(
+        isDalle3 ? OpenaiPath.ImagePath : OpenaiPath.newTcmChat,
+      );
       if (shouldStream) {
         let index = -1;
         const [tools, funcs] = usePluginStore
@@ -293,8 +343,13 @@ export class ChatGPTApi implements LLMApi {
           .getAsTools(
             useChatStore.getState().currentSession().mask?.plugin || [],
           );
+        chatNewTCMchat(parmPayload)
+          .then((res: any) => {
+            console.log(res);
+          })
+          .catch(() => {});
         // console.log("getAsTools", tools, funcs);
-        streamWithThink(
+        stream(
           chatPath,
           requestPayload,
           getHeaders(),
@@ -309,12 +364,8 @@ export class ChatGPTApi implements LLMApi {
               delta: {
                 content: string;
                 tool_calls: ChatMessageTool[];
-                reasoning_content: string | null;
               };
             }>;
-
-            if (!choices?.length) return { isThinking: false, content: "" };
-
             const tool_calls = choices[0]?.delta?.tool_calls;
             if (tool_calls?.length > 0) {
               const id = tool_calls[0]?.id;
@@ -334,37 +385,7 @@ export class ChatGPTApi implements LLMApi {
                 runTools[index]["function"]["arguments"] += args;
               }
             }
-
-            const reasoning = choices[0]?.delta?.reasoning_content;
-            const content = choices[0]?.delta?.content;
-
-            // Skip if both content and reasoning_content are empty or null
-            if (
-              (!reasoning || reasoning.length === 0) &&
-              (!content || content.length === 0)
-            ) {
-              return {
-                isThinking: false,
-                content: "",
-              };
-            }
-
-            if (reasoning && reasoning.length > 0) {
-              return {
-                isThinking: true,
-                content: reasoning,
-              };
-            } else if (content && content.length > 0) {
-              return {
-                isThinking: false,
-                content: content,
-              };
-            }
-
-            return {
-              isThinking: false,
-              content: "",
-            };
+            return choices[0]?.delta?.content;
           },
           // processToolMessage, include tool_calls message and tool call results
           (
@@ -396,7 +417,9 @@ export class ChatGPTApi implements LLMApi {
         // make a fetch request
         const requestTimeoutId = setTimeout(
           () => controller.abort(),
-          getTimeoutMSByModel(options.config.model),
+          isDalle3 || isO1OrO3
+            ? REQUEST_TIMEOUT_MS_FOR_THINKING
+            : REQUEST_TIMEOUT_MS, // dalle3 using b64_json is slow.
         );
 
         const res = await fetch(chatPath, chatPayload);

@@ -19,9 +19,9 @@ const cn = {
   },
   Auth: {
     Return: "返回",
-    Title: "需要密码",
+    Title: "需要账户密码",
     Tips: "管理员开启了密码验证，请在下方填入访问码",
-    SubTips: "或者输入你的 OpenAI 或 Google AI 密钥",
+    SubTips: "请输入你的账户和密码",
     Input: "在此处填写访问码",
     Confirm: "确认",
     Later: "稍后再说",
@@ -375,6 +375,18 @@ const cn = {
         ApiVerion: {
           Title: "接口版本 (claude api version)",
           SubTitle: "选择一个特定的 API 版本输入",
+        },
+      },
+      User: {
+        UserName: {
+          Title: "账户",
+          SubTitle: "请输入账户",
+          Placeholder: "请输入账户",
+        },
+        Password: {
+          Title: "密码",
+          SubTitle: "请输入密码",
+          Placeholder: "请输入密码",
         },
       },
       Google: {

@@ -19,14 +19,50 @@ import {
   trackAuthorizationPageButtonToCPaymentClick,
 } from "../utils/auth-settings-events";
 import clsx from "clsx";
+import { userLogin } from "@/app/components/service";
 
 const storage = safeLocalStorage();
+const crypto = require("crypto");
 
 export function AuthPage() {
   const navigate = useNavigate();
   const accessStore = useAccessStore();
   const goHome = () => navigate(Path.Home);
-  const goChat = () => navigate(Path.Chat);
+  async function hashPassword(password: string) {
+    return new Promise((resolve, reject) => {
+      const hash = crypto.createHash("sha256");
+      hash.update(password);
+      resolve(hash.digest("hex"));
+    });
+  }
+
+  const goChat = async () => {
+    // 请求登录接口
+    const hashPwd = await hashPassword(accessStore.userPwd);
+    console.log(accessStore.userName, hashPwd);
+    const params = {
+      createTime: Date.now(),
+      remark: "",
+      userId: accessStore.userName,
+      userName: accessStore.userName,
+      userPassword: hashPwd,
+      userPhone: "",
+      userType: "",
+    };
+    userLogin(params)
+      .then((res: any) => {
+        console.log(res);
+        if (res.code === "200") {
+          accessStore.update((access) => {
+            access.userName = res.data.userName;
+            access.userPwd = res.data.userPassword;
+            access.userId = res.data.userId;
+          });
+          navigate(Path.Home);
+        }
+      })
+      .catch(() => {});
+  };
   const goSaas = () => {
     trackAuthorizationPageButtonToCPaymentClick();
     window.location.href = SAAS_CHAT_URL;
@@ -36,6 +72,8 @@ export function AuthPage() {
     accessStore.update((access) => {
       access.openaiApiKey = "";
       access.accessCode = "";
+      access.userName = "";
+      access.userPwd = "";
     });
   }; // Reset access code to empty string
 
@@ -48,7 +86,7 @@ export function AuthPage() {
 
   return (
     <div className={styles["auth-page"]}>
-      <TopBanner></TopBanner>
+      {/* <TopBanner></TopBanner> */}
       <div className={styles["auth-header"]}>
         <IconButton
           icon={<LeftIcon />}
@@ -63,37 +101,72 @@ export function AuthPage() {
       <div className={styles["auth-title"]}>{Locale.Auth.Title}</div>
       <div className={styles["auth-tips"]}>{Locale.Auth.Tips}</div>
 
-      <PasswordInput
-        style={{ marginTop: "3vh", marginBottom: "3vh" }}
-        aria={Locale.Settings.ShowPassword}
-        aria-label={Locale.Auth.Input}
-        value={accessStore.accessCode}
-        type="text"
-        placeholder={Locale.Auth.Input}
-        onChange={(e) => {
-          accessStore.update(
-            (access) => (access.accessCode = e.currentTarget.value),
-          );
-        }}
-      />
+      <div style={{ display: "none" }}>
+        <PasswordInput
+          style={{ marginTop: "3vh", marginBottom: "3vh" }}
+          aria={Locale.Settings.ShowPassword}
+          aria-label={Locale.Auth.Input}
+          value={accessStore.accessCode}
+          type="text"
+          placeholder={Locale.Auth.Input}
+          onChange={(e) => {
+            accessStore.update(
+              (access) => (access.accessCode = e.currentTarget.value),
+            );
+          }}
+        />
+      </div>
 
       {!accessStore.hideUserApiKey ? (
         <>
-          <div className={styles["auth-tips"]}>{Locale.Auth.SubTips}</div>
+          <div style={{ display: "none" }}>
+            <div className={styles["auth-tips"]}>{Locale.Auth.SubTips}</div>
+            <PasswordInput
+              style={{ marginTop: "3vh", marginBottom: "3vh" }}
+              aria={Locale.Settings.ShowPassword}
+              aria-label={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
+              value={accessStore.openaiApiKey}
+              type="text"
+              placeholder={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
+              onChange={(e) => {
+                accessStore.update(
+                  (access) => (access.openaiApiKey = e.currentTarget.value),
+                );
+              }}
+            />
+          </div>
+
+          <div className={"user-input-container"} style={{ marginTop: "3vh" }}>
+            <IconButton
+              style={{ width: "43px", height: "36px" }}
+              className="{password-eye}"
+            />
+            <input
+              type="text"
+              className={"password-input"}
+              value={accessStore.userName}
+              placeholder={Locale.Settings.Access.User.UserName.Placeholder}
+              onChange={(e) => {
+                accessStore.update(
+                  (access) => (access.userName = e.currentTarget.value),
+                );
+              }}
+            />
+          </div>
           <PasswordInput
             style={{ marginTop: "3vh", marginBottom: "3vh" }}
             aria={Locale.Settings.ShowPassword}
-            aria-label={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
-            value={accessStore.openaiApiKey}
+            aria-label={Locale.Settings.Access.User.Password.Placeholder}
+            value={accessStore.userPwd}
             type="text"
-            placeholder={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
+            placeholder={Locale.Settings.Access.User.Password.Placeholder}
             onChange={(e) => {
               accessStore.update(
-                (access) => (access.openaiApiKey = e.currentTarget.value),
+                (access) => (access.userPwd = e.currentTarget.value),
               );
             }}
           />
-          <PasswordInput
+          {/* <PasswordInput
             style={{ marginTop: "3vh", marginBottom: "3vh" }}
             aria={Locale.Settings.ShowPassword}
             aria-label={Locale.Settings.Access.Google.ApiKey.Placeholder}
@@ -105,7 +178,7 @@ export function AuthPage() {
                 (access) => (access.googleApiKey = e.currentTarget.value),
               );
             }}
-          />
+          /> */}
         </>
       ) : null}
 
@@ -115,12 +188,12 @@ export function AuthPage() {
           type="primary"
           onClick={goChat}
         />
-        <IconButton
+        {/* <IconButton
           text={Locale.Auth.SaasTips}
           onClick={() => {
             goSaas();
           }}
-        />
+        /> */}
       </div>
     </div>
   );

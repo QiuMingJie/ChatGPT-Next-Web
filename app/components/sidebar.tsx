@@ -4,7 +4,6 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SchoolLogo from "../icons/school-logo.svg";
-import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import DragIcon from "../icons/drag.svg";
 
@@ -245,7 +244,7 @@ export function SideBar(props: { className?: string }) {
       {...props}
     >
       <SideBarHeader
-        title="AI 平台"
+        title="AI 高校平台"
         // subTitle="Build your own AI assistant."
         logo={<SchoolLogo />}
         shouldNarrow={shouldNarrow}
@@ -343,21 +342,21 @@ export function SideBar(props: { className?: string }) {
             </div>
           </>
         }
-        secondaryAction={
-          <IconButton
-            icon={<AddIcon />}
-            text={shouldNarrow ? undefined : Locale.Home.NewChat}
-            onClick={() => {
-              if (config.dontShowMaskSplashScreen) {
-                chatStore.newSession();
-                navigate(Path.Chat);
-              } else {
-                navigate(Path.NewChat);
-              }
-            }}
-            shadow
-          />
-        }
+        // secondaryAction={
+        //   <IconButton
+        //     icon={<AddIcon />}
+        //     text={shouldNarrow ? undefined : Locale.Home.NewChat}
+        //     onClick={() => {
+        //       if (config.dontShowMaskSplashScreen) {
+        //         chatStore.newSession();
+        //         navigate(Path.Chat);
+        //       } else {
+        //         navigate(Path.NewChat);
+        //       }
+        //     }}
+        //     shadow
+        //   />
+        // }
       />
     </SideBarContainer>
   );

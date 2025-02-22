@@ -14,6 +14,8 @@ function getIP(req: NextRequest) {
   return ip;
 }
 
+export function userLogin() {}
+
 function parseApiKey(bearToken: string) {
   const token = bearToken.trim().replaceAll("Bearer ", "").trim();
   const isApiKey = !token.startsWith(ACCESS_CODE_PREFIX);

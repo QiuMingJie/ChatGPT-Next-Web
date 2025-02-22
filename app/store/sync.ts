@@ -17,6 +17,7 @@ export interface WebDavConfig {
   server: string;
   username: string;
   password: string;
+  userId: string;
 }
 
 const isApp = !!getClientConfig()?.isApp;
@@ -31,12 +32,14 @@ const DEFAULT_SYNC_STATE = {
     endpoint: "",
     username: "",
     password: "",
+    userId: "",
   },
 
   upstash: {
     endpoint: "",
     username: STORAGE_KEY,
     apiKey: "",
+    userId: "",
   },
 
   lastSyncTime: 0,
