@@ -54,7 +54,7 @@ export function AuthPage() {
         console.log(res);
         if (res.code === "200") {
           accessStore.update((access) => {
-            access.userName = res.data.userName;
+            access.userName = "";
             access.userPwd = res.data.userPassword;
             access.userId = res.data.userId;
             access.accessCode = "1";
