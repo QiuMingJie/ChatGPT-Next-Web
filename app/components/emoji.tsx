@@ -1,13 +1,12 @@
 import EmojiPicker, {
-  Emoji,
   EmojiStyle,
   Theme as EmojiTheme,
 } from "emoji-picker-react";
 
 import { ModelType } from "../store";
 
+import BotIconDeepSeeks from "../icons/robots.svg";
 import BotIconDefault from "../icons/llm-icons/default.svg";
-import BotIconOpenAI from "../icons/llm-icons/openai.svg";
 import BotIconGemini from "../icons/llm-icons/gemini.svg";
 import BotIconGemma from "../icons/llm-icons/gemma.svg";
 import BotIconClaude from "../icons/llm-icons/claude.svg";
@@ -21,7 +20,8 @@ import BotIconGrok from "../icons/llm-icons/grok.svg";
 import BotIconHunyuan from "../icons/llm-icons/hunyuan.svg";
 import BotIconDoubao from "../icons/llm-icons/doubao.svg";
 import BotIconChatglm from "../icons/llm-icons/chatglm.svg";
-
+import ChatGptIcon from "../icons/robots.jpg";
+import NextImage from "next/image";
 export function getEmojiUrl(unified: string, style: EmojiStyle) {
   // Whoever owns this Content Delivery Network (CDN), I am using your CDN to serve emojis
   // Old CDN broken, so I had to switch to this one
@@ -33,15 +33,17 @@ export function AvatarPicker(props: {
   onEmojiClick: (emojiId: string) => void;
 }) {
   return (
-    <EmojiPicker
-      width={"100%"}
-      lazyLoadEmojis
-      theme={EmojiTheme.AUTO}
-      getEmojiUrl={getEmojiUrl}
-      onEmojiClick={(e) => {
-        props.onEmojiClick(e.unified);
-      }}
-    />
+    <div className="flex flex-row items-center justify-center">
+      <EmojiPicker
+        width={"100%"}
+        lazyLoadEmojis
+        theme={EmojiTheme.AUTO}
+        getEmojiUrl={getEmojiUrl}
+        onEmojiClick={(e) => {
+          props.onEmojiClick(e.unified);
+        }}
+      />
+    </div>
   );
 }
 
@@ -59,7 +61,7 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
       modelName.startsWith("o1") ||
       modelName.startsWith("o3")
     ) {
-      LlmIcon = BotIconOpenAI;
+      LlmIcon = BotIconDeepSeeks;
     } else if (modelName.startsWith("gemini")) {
       LlmIcon = BotIconGemini;
     } else if (modelName.startsWith("gemma")) {
@@ -108,10 +110,11 @@ export function Avatar(props: { model?: ModelType; avatar?: string }) {
 
 export function EmojiAvatar(props: { avatar: string; size?: number }) {
   return (
-    <Emoji
-      unified={props.avatar}
-      size={props.size ?? 18}
-      getEmojiUrl={getEmojiUrl}
-    />
+    <NextImage src={ChatGptIcon.src} alt="logo" width={20} height={20} />
+    // <Emoji
+    //   unified={props.avatar}
+    //   size={props.size ?? 18}
+    //   getEmojiUrl={getEmojiUrl}
+    // />
   );
 }

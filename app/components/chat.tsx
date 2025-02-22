@@ -1847,7 +1847,8 @@ function _Chat() {
                             </div>
                             {!isUser && (
                               <div className={styles["chat-model-name"]}>
-                                {message.model}
+                                DeepSeek
+                                {/* {message.model} */}
                               </div>
                             )}
 
