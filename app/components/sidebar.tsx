@@ -185,6 +185,7 @@ export function SideBarHeader(props: {
           </div>
           <div className={styles["sidebar-sub-title"]}>{subTitle}</div>
         </div>
+        {/* <div className={clsx(styles["sidebar-logo"], "no-dark")}>{logo}</div> */}
         <div className={clsx(styles["sidebar-logo"], "no-dark")}>{logo}</div>
       </div>
       {children}

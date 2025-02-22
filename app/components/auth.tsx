@@ -54,9 +54,10 @@ export function AuthPage() {
         console.log(res);
         if (res.code === "200") {
           accessStore.update((access) => {
-            access.userName = res.data.userName;
+            access.userName = "";
             access.userPwd = res.data.userPassword;
             access.userId = res.data.userId;
+            access.accessCode = "1";
           });
           navigate(Path.Home);
         }
@@ -108,6 +109,7 @@ export function AuthPage() {
           aria-label={Locale.Auth.Input}
           value={accessStore.accessCode}
           type="text"
+          autoComplete="off"
           placeholder={Locale.Auth.Input}
           onChange={(e) => {
             accessStore.update(
@@ -127,6 +129,7 @@ export function AuthPage() {
               aria-label={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
               value={accessStore.openaiApiKey}
               type="text"
+              autoComplete="off"
               placeholder={Locale.Settings.Access.OpenAI.ApiKey.Placeholder}
               onChange={(e) => {
                 accessStore.update(
@@ -143,6 +146,7 @@ export function AuthPage() {
             />
             <input
               type="text"
+              autoComplete="off"
               className={"password-input"}
               value={accessStore.userName}
               placeholder={Locale.Settings.Access.User.UserName.Placeholder}
@@ -159,6 +163,7 @@ export function AuthPage() {
             aria-label={Locale.Settings.Access.User.Password.Placeholder}
             value={accessStore.userPwd}
             type="text"
+            autoComplete="off"
             placeholder={Locale.Settings.Access.User.Password.Placeholder}
             onChange={(e) => {
               accessStore.update(

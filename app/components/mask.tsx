@@ -327,7 +327,11 @@ export function ContextPrompts(props: {
 }) {
   const context = props.context;
 
+  // 定义一个名为 addContextPrompt 的函数，用于在特定位置插入聊天消息
   const addContextPrompt = (prompt: ChatMessage, i: number) => {
+    // 调用 props 中的 updateContext 方法来更新上下文
+    // updateContext 接受一个函数作为参数，该函数接收当前的上下文数组并返回更新后的数组
+    // 在函数内部，使用 splice 方法在索引 i 处插入新的聊天消息 prompt
     props.updateContext((context) => context.splice(i, 0, prompt));
   };
 
