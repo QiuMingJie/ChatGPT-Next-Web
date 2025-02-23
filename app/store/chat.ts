@@ -222,7 +222,7 @@ async function getMcpSystemPrompt(): Promise<string> {
 
   return MCP_SYSTEM_TEMPLATE.replace("{{ MCP_TOOLS }}", toolsStr);
 }
-const list = [
+const list: any = [
   {
     id: nanoid(),
     topic: "诊断练习",
@@ -265,6 +265,7 @@ const list = [
       builtin: true,
       createdAt: Date.now(),
       id: 100001,
+      plugin: [],
     },
   },
   {
@@ -310,6 +311,7 @@ const list = [
       builtin: true,
       createdAt: Date.now(),
       id: 100000,
+      plugin: [],
     },
   },
   {
@@ -355,6 +357,7 @@ const list = [
       builtin: true,
       createdAt: Date.now(),
       id: 100002,
+      plugin: [],
     },
   },
 ];
@@ -385,7 +388,7 @@ export const useChatStore = createPersistStore(
 
         newSession.topic = currentSession.topic;
         // 深拷贝消息
-        newSession.messages = currentSession.messages.map((msg) => ({
+        newSession.messages = currentSession.messages.map((msg: any) => ({
           ...msg,
           id: nanoid(), // 生成新的消息 ID
         }));
@@ -939,7 +942,7 @@ export const useChatStore = createPersistStore(
         });
       },
       updateTargetSession(
-        targetSession: ChatSession,
+        targetSession: any,
         updater: (session: ChatSession) => void,
       ) {
         const sessions = get().sessions;
@@ -1022,7 +1025,7 @@ export const useChatStore = createPersistStore(
         // migrate id to nanoid
         newState.sessions.forEach((s) => {
           s.id = nanoid();
-          s.messages.forEach((m) => (m.id = nanoid()));
+          s.messages.forEach((m: any) => (m.id = nanoid()));
         });
       }
 

@@ -12,7 +12,6 @@ import Locale from "../locales";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../constant";
 import { MaskAvatar } from "./mask";
-import { Mask } from "../store/mask";
 import { useRef, useEffect } from "react";
 import { showConfirm } from "./ui-lib";
 import { useMobileScreen } from "../utils";
@@ -28,7 +27,7 @@ export function ChatItem(props: {
   id: string;
   index: number;
   narrow?: boolean;
-  mask: Mask;
+  mask: any;
 }) {
   const draggableRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
