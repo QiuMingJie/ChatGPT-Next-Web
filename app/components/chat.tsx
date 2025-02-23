@@ -180,12 +180,12 @@ export function SessionConfigModel(props: { onClose: () => void }) {
       >
         <MaskConfig
           mask={session.mask}
-          updateMask={(updater) => {
+          updateMask={(updater: any) => {
             const mask = { ...session.mask };
             updater(mask);
             chatStore.updateTargetSession(
               session,
-              (session) => (session.mask = mask),
+              (session: any) => (session.mask = mask),
             );
           }}
           shouldSyncFromGlobal
@@ -1201,7 +1201,7 @@ function _Chat() {
     // 4. resend the user's input
 
     const resendingIndex = session.messages.findIndex(
-      (m) => m.id === message.id,
+      (m: any) => m.id === message.id,
     );
 
     if (resendingIndex < 0 || resendingIndex >= session.messages.length) {
@@ -1216,7 +1216,7 @@ function _Chat() {
       // if it is resending a bot's message, find the user input for it
       botMessage = message;
       for (let i = resendingIndex; i >= 0; i -= 1) {
-        if (session.messages[i].role === "user") {
+        if (session.messages[i]?.role === "user") {
           userMessage = session.messages[i];
           break;
         }
@@ -1309,7 +1309,7 @@ function _Chat() {
     }
   }
 
-  const context: RenderMessage[] = useMemo(() => {
+  const context: any[] = useMemo(() => {
     return session.mask.hideContext ? [] : session.mask.context.slice();
   }, [session.mask.context, session.mask.hideContext]);
 
@@ -1928,7 +1928,7 @@ function _Chat() {
                           {/*@ts-ignore*/}
                           {message?.tools?.length > 0 && (
                             <div className={styles["chat-message-tools"]}>
-                              {message?.tools?.map((tool) => (
+                              {message?.tools?.map((tool: any) => (
                                 <div
                                   key={tool.id}
                                   title={tool?.errorMsg}

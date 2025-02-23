@@ -87,7 +87,7 @@ export function MessageSelector(props: {
   const messages = useMemo(
     () =>
       allMessages.filter(
-        (m, i) =>
+        (m: any, i: number) =>
           m.id && // message must have id
           isValid(m) &&
           (i >= allMessages.length - 1 || isValid(allMessages[i + 1])),
@@ -105,7 +105,7 @@ export function MessageSelector(props: {
   const doSearch = (text: string) => {
     const searchResults = new Set<string>();
     if (text.length > 0) {
-      messages.forEach((m) =>
+      messages.forEach((m: any) =>
         getMessageTextContent(m).includes(text)
           ? searchResults.add(m.id!)
           : null,
@@ -119,7 +119,7 @@ export function MessageSelector(props: {
 
   const selectAll = () => {
     props.updateSelection((selection) =>
-      messages.forEach((m) => selection.add(m.id!)),
+      messages.forEach((m: any) => selection.add(m.id!)),
     );
   };
 
@@ -173,7 +173,7 @@ export function MessageSelector(props: {
                 selection.clear();
                 messages
                   .slice(messageCount - LATEST_COUNT)
-                  .forEach((m) => selection.add(m.id!));
+                  .forEach((m: any) => selection.add(m.id!));
               })
             }
           />
@@ -189,7 +189,7 @@ export function MessageSelector(props: {
       </div>
 
       <div className={styles["messages"]}>
-        {messages.map((m, i) => {
+        {messages.map((m: any, i: number) => {
           if (!isInSearchResult(m.id!)) return null;
           const id = m.id ?? i;
           const isSelected = props.selection.has(id);

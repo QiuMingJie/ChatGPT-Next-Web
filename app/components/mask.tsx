@@ -17,7 +17,6 @@ import { DEFAULT_MASK_AVATAR, Mask, useMaskStore } from "../store/mask";
 import {
   ChatMessage,
   createMessage,
-  ModelConfig,
   ModelType,
   useAppConfig,
   useChatStore,
@@ -74,7 +73,7 @@ export function MaskAvatar(props: { avatar: string; model?: ModelType }) {
 }
 
 export function MaskConfig(props: {
-  mask: Mask;
+  mask: any;
   updateMask: Updater<Mask>;
   extraListItems?: JSX.Element;
   readonly?: boolean;
@@ -82,7 +81,7 @@ export function MaskConfig(props: {
 }) {
   const [showPicker, setShowPicker] = useState(false);
 
-  const updateConfig = (updater: (config: ModelConfig) => void) => {
+  const updateConfig = (updater: (config: any) => any) => {
     if (props.readonly) return;
 
     const config = { ...props.mask.modelConfig };

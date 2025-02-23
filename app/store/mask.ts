@@ -17,7 +17,7 @@ export type Mask = {
   modelConfig: ModelConfig;
   lang: Lang;
   builtin: boolean;
-  plugin?: string[];
+  plugin?: any;
   enableArtifacts?: boolean;
   enableCodeFold?: boolean;
 };
@@ -50,7 +50,7 @@ export const useMaskStore = createPersistStore(
   { ...DEFAULT_MASK_STATE },
 
   (set, get) => ({
-    create(mask?: Partial<Mask>) {
+    create(mask?: any) {
       const masks = get().masks;
       const id = nanoid();
       masks[id] = {

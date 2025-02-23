@@ -79,7 +79,7 @@ const MergeStates: StateMerger = {
       } else {
         // if both have the same session id, merge the messages
         const localMessageIds = new Set(localSession.messages.map((v) => v.id));
-        remoteSession.messages.forEach((m) => {
+        remoteSession.messages.forEach((m: any) => {
           if (!localMessageIds.has(m.id)) {
             localSession.messages.push(m);
           }
