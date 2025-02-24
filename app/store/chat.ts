@@ -233,12 +233,13 @@ const list: any = [
     lastSummarizeIndex: 0,
     mask: {
       avatar: "270d-fe0f",
-      name: "诊断练习",
+      name: "中医诊断学AI出题",
       context: [
         {
           id: "writer-0",
           role: "user",
-          content: "我给你关键字，你发给我一些训练题目，我的关键字是：",
+          content:
+            "你是一位中医诊断学专家，你的任务是帮助学生理解中医诊断学的核心概念和方法。学生将提供一个与中医诊断学相关的主题词，你需要根据该主题词生成一个相关的试题，并提供详细的答案和解释。试题应涵盖中医诊断学的基本理论、诊断方法、辨证论治等内容，确保学生能够通过试题加深对中医诊断学的理解：",
           date: "",
         },
       ],
@@ -267,6 +268,7 @@ const list: any = [
       id: 100001,
       plugin: [],
     },
+    style: "rgb(188, 215, 233)",
   },
   {
     id: nanoid(),
@@ -278,7 +280,7 @@ const list: any = [
     lastSummarizeIndex: 0,
     mask: {
       avatar: "1f978",
-      name: "智能问答",
+      name: "中医诊断学智能答疑",
       context: [
         {
           id: "writer-0",
@@ -313,6 +315,7 @@ const list: any = [
       id: 100000,
       plugin: [],
     },
+    style: "rgb(139, 189, 193)",
   },
   {
     id: nanoid(),
@@ -324,13 +327,13 @@ const list: any = [
     lastSummarizeIndex: 0,
     mask: {
       avatar: "1f4da",
-      name: "知识库",
+      name: "中医诊断学知识点查询库",
       context: [
         {
           id: "writer-0",
           role: "user",
           content:
-            "你整合一下中医诊断学资料，然后我会发给你关键词，你根据我的关键词发给我对应的一些中医诊断资料，我的第一个关键词是：",
+            "你是一位中医诊断学专家，你的任务是帮助学生查询和理解中医诊断学的相关知识点。学生可以提供一个与中医诊断学相关的关键词或问题，你需要根据该关键词或问题，提供清晰、准确的知识点解释，并结合中医理论、临床应用等内容进行详细说明，帮助学生深入理解。",
           date: "",
         },
       ],
@@ -359,6 +362,7 @@ const list: any = [
       id: 100002,
       plugin: [],
     },
+    style: "rgb(216, 233, 207)",
   },
 ];
 const DEFAULT_CHAT_STATE = {

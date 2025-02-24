@@ -245,7 +245,7 @@ export function SideBar(props: { className?: string }) {
       {...props}
     >
       <SideBarHeader
-        title="AI 高校平台"
+        title="南京中医药大学中医诊断学AI教学助手"
         // subTitle="Build your own AI assistant."
         logo={<SchoolLogo />}
         shouldNarrow={shouldNarrow}

@@ -28,6 +28,7 @@ export function ChatItem(props: {
   index: number;
   narrow?: boolean;
   mask: any;
+  style: any;
 }) {
   const draggableRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -43,47 +44,51 @@ export function ChatItem(props: {
     <Draggable draggableId={`${props.id}`} index={props.index}>
       {(provided) => (
         <div
-          className={clsx(styles["chat-item"], {
-            [styles["chat-item-selected"]]:
-              props.selected &&
-              (currentPath === Path.Chat || currentPath === Path.Home),
-          })}
-          onClick={props.onClick}
-          ref={(ele) => {
-            draggableRef.current = ele;
-            provided.innerRef(ele);
-          }}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          title={`${props.title}\n${Locale.ChatItem.ChatItemCount(
-            props.count,
-          )}`}
+          style={{ background: props.style.background, borderRadius: "10px" }}
         >
-          {props.narrow ? (
-            <div className={styles["chat-item-narrow"]}>
-              <div className={clsx(styles["chat-item-avatar"], "no-dark")}>
-                <MaskAvatar
-                  avatar={props.mask.avatar}
-                  model={props.mask.modelConfig.model}
-                />
-              </div>
-              <div className={styles["chat-item-narrow-count"]}>
-                {props.count}
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className={styles["chat-item-title"]}>{props.title}</div>
-              <div className={styles["chat-item-info"]}>
-                <div className={styles["chat-item-count"]}>
-                  {Locale.ChatItem.ChatItemCount(props.count)}
+          <div
+            style={{ background: props.style.background }}
+            className={clsx(styles["chat-item"], {
+              [styles["chat-item-selected"]]:
+                props.selected &&
+                (currentPath === Path.Chat || currentPath === Path.Home),
+            })}
+            onClick={props.onClick}
+            ref={(ele) => {
+              draggableRef.current = ele;
+              provided.innerRef(ele);
+            }}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            title={`${props.title}\n${Locale.ChatItem.ChatItemCount(
+              props.count,
+            )}`}
+          >
+            {props.narrow ? (
+              <div className={styles["chat-item-narrow"]}>
+                <div className={clsx(styles["chat-item-avatar"], "no-dark")}>
+                  <MaskAvatar
+                    avatar={props.mask.avatar}
+                    model={props.mask.modelConfig.model}
+                  />
                 </div>
-                <div className={styles["chat-item-date"]}>{props.time}</div>
+                <div className={styles["chat-item-narrow-count"]}>
+                  {props.count}
+                </div>
               </div>
-            </>
-          )}
+            ) : (
+              <div>
+                <div className={styles["chat-item-title"]}>{props.title}</div>
+                <div className={styles["chat-item-info"]}>
+                  <div className={styles["chat-item-count"]}>
+                    {Locale.ChatItem.ChatItemCount(props.count)}
+                  </div>
+                  <div className={styles["chat-item-date"]}>{props.time}</div>
+                </div>
+              </div>
+            )}
 
-          {/* <div
+            {/* <div
             className={styles["chat-item-delete"]}
             onClickCapture={(e) => {
               props.onDelete?.();
@@ -93,6 +98,7 @@ export function ChatItem(props: {
           >
             <DeleteIcon />
           </div> */}
+          </div>
         </div>
       )}
     </Draggable>
@@ -130,7 +136,7 @@ export function ChatList(props: { narrow?: boolean }) {
   // const list = [
   //   {
   //     id: nanoid(),
-  //     topic: "诊断练习",
+  //     topic: "中医诊断学AI出题",
   //     memoryPrompt: "",
   //     messages: [],
   //     stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
@@ -138,7 +144,7 @@ export function ChatList(props: { narrow?: boolean }) {
   //     lastSummarizeIndex: 0,
   //     mask: {
   //       avatar: "270d-fe0f",
-  //       name: "诊断练习",
+  //       name: "中医诊断学AI出题",
   //       context: [
   //         {
   //           id: "writer-0",
@@ -272,6 +278,43 @@ export function ChatList(props: { narrow?: boolean }) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "12px",
+                marginBottom: "20px",
+              }}
+            >
+              <a
+                href={Locale.bottomLink.link}
+                target="_blank"
+                style={{
+                  padding: "10px",
+                  background: "#fff",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  color: "black",
+                }}
+              >
+                {Locale.bottomLink.name}
+              </a>
+              <a
+                href={Locale.bottomLink.elink}
+                target="_blank"
+                style={{
+                  padding: "10px",
+                  background: "#fff",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  color: "black",
+                }}
+              >
+                {Locale.bottomLink.ename}
+              </a>
+            </div>
             {/* {JSON.stringify(sessions)} */}
             {sessions.map((item, i) => (
               <ChatItem
@@ -280,6 +323,7 @@ export function ChatList(props: { narrow?: boolean }) {
                 count={item.messages.length}
                 key={item.id}
                 id={item.id}
+                style={{ background: item.style }}
                 index={i}
                 selected={i === selectedIndex}
                 onClick={() => {

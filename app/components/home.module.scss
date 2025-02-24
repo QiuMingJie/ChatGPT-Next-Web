@@ -174,8 +174,10 @@
 
 .chat-item {
   padding: 10px 14px;
-  background-color: var(--white);
+  // background-color: var(--white);
+  background-color: transparent;
   border-radius: 10px;
+  overflow: hidden;
   margin-bottom: 10px;
   box-shadow: var(--card-shadow);
   transition: background-color 0.3s ease;
