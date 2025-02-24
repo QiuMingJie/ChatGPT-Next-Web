@@ -773,7 +773,12 @@ const cn = {
     SubTitle: "现在开始，与面具背后的灵魂思维碰撞",
     More: "查看全部",
   },
-
+  bottomLink: {
+    link: `https://www.icourse163.org/learn/NJUTCM-1463994165?tid=1470779441#/learn/announce`,
+    name: `中医诊断学MOOC视频(中)`,
+    elink: `https://www.icourse163.org/learn/NJUTCM-1462226166?tid=1474267443#/learn/announce`,
+    ename: `中医诊断学MOOC视频(英)`,
+  },
   URLCommand: {
     Code: "检测到链接中已经包含访问码，是否自动填入？",
     Settings: "检测到链接中包含了预制设置，是否自动填入？",

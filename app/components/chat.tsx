@@ -8,7 +8,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
 import EditIcon from "../icons/rename.svg";
@@ -1657,7 +1656,6 @@ function _Chat() {
   }, [messages, chatStore, navigate, session]);
 
   const [showChatSidePanel, setShowChatSidePanel] = useState(false);
-
   return (
     <>
       <div className={styles.chat} key={session.id}>
