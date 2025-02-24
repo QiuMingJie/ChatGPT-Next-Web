@@ -52,6 +52,7 @@
   position: relative;
   transition: width ease 0.05s;
   z-index: 1;
+  background: #fff;
   &::before{
       content: "";
       position: absolute;
