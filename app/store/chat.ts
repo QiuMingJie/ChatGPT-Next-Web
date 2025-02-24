@@ -225,7 +225,7 @@ async function getMcpSystemPrompt(): Promise<string> {
 const list: any = [
   {
     id: nanoid(),
-    topic: "诊断练习",
+    topic: "中医诊断学AI出题",
     memoryPrompt: "",
     messages: [],
     stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
@@ -262,6 +262,7 @@ const list: any = [
         quality: "standard",
         style: "vivid",
       },
+      hideContext: true,
       lang: "cn",
       builtin: true,
       createdAt: Date.now(),
@@ -272,7 +273,7 @@ const list: any = [
   },
   {
     id: nanoid(),
-    topic: "智能问答",
+    topic: "中医诊断学智能答疑",
     memoryPrompt: "",
     messages: [],
     stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
@@ -309,6 +310,7 @@ const list: any = [
         quality: "standard",
         style: "vivid",
       },
+      hideContext: true,
       lang: "cn",
       builtin: true,
       createdAt: Date.now(),
@@ -319,7 +321,7 @@ const list: any = [
   },
   {
     id: nanoid(),
-    topic: "知识库",
+    topic: "中医诊断学知识点查询库",
     memoryPrompt: "",
     messages: [],
     stat: { tokenCount: 0, wordCount: 0, charCount: 0 },
@@ -356,6 +358,7 @@ const list: any = [
         quality: "standard",
         style: "vivid",
       },
+      hideContext: true,
       lang: "cn",
       builtin: true,
       createdAt: Date.now(),
