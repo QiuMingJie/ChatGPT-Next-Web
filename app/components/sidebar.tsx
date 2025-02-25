@@ -213,8 +213,8 @@ export function SideBarTail(props: {
 
   return (
     <div className={styles["sidebar-tail"]}>
-      <div className={styles["sidebar-actions"]}>{primaryAction}</div>
-      <div className={styles["sidebar-actions"]}>{secondaryAction}</div>
+      {/* <div className={styles["sidebar-actions"]}>{primaryAction}</div>
+      <div className={styles["sidebar-actions"]}>{secondaryAction}</div> */}
     </div>
   );
 }
