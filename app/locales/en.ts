@@ -32,6 +32,10 @@ const en: LocaleType = {
     TopTips:
       "🥳 NextChat AI launch promotion: Instantly unlock the latest models like OpenAI o1, GPT-4o, Claude-3.5!",
   },
+  SetPWd: {
+    Return: "返回",
+    Title: "修改账号密码",
+  },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} messages`,
   },
@@ -394,6 +398,16 @@ const en: LocaleType = {
           Title: "",
           SubTitle: "",
           Placeholder: "",
+        },
+        newPassword: {
+          Title: "新密码",
+          SubTitle: "请输入新密码",
+          Placeholder: "请输入新密码",
+        },
+        ConfirmPassword: {
+          Title: "确认密码",
+          SubTitle: "请确认新密码",
+          Placeholder: "请确认新密码",
         },
       },
       Baidu: {
