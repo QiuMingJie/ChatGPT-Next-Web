@@ -6,7 +6,7 @@ import { IconButton } from "./button";
 import SchoolLogo from "../icons/school-logo.svg";
 import DeleteIcon from "../icons/delete.svg";
 import DragIcon from "../icons/drag.svg";
-
+import SettingsIcon from "../icons/chat-settings.svg";
 import Locale from "../locales";
 
 import { useAppConfig, useChatStore } from "../store";
@@ -213,8 +213,8 @@ export function SideBarTail(props: {
 
   return (
     <div className={styles["sidebar-tail"]}>
-      {/* <div className={styles["sidebar-actions"]}>{primaryAction}</div>
-      <div className={styles["sidebar-actions"]}>{secondaryAction}</div> */}
+      <div className={styles["sidebar-actions"]}>{primaryAction}</div>
+      {/* <div className={styles["sidebar-actions"]}>{secondaryAction}</div> */}
     </div>
   );
 }
@@ -324,12 +324,12 @@ export function SideBar(props: { className?: string }) {
               />
             </div>
             <div className={styles["sidebar-action"]}>
-              <Link to={Path.Settings}>
-                {/* <IconButton
+              <Link to={Path.SetPwd}>
+                <IconButton
                   aria={Locale.Settings.Title}
                   icon={<SettingsIcon />}
                   shadow
-                /> */}
+                />
               </Link>
             </div>
             <div className={styles["sidebar-action"]}>

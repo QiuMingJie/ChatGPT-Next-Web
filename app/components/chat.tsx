@@ -21,14 +21,19 @@ import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
 import ReloadIcon from "../icons/reload.svg";
+import BreakIcon from "../icons/break.svg";
 import DeleteIcon from "../icons/clear.svg";
 import PinIcon from "../icons/pin.svg";
 import ConfirmIcon from "../icons/confirm.svg";
 import CloseIcon from "../icons/close.svg";
 import CancelIcon from "../icons/cancel.svg";
 
+import LightIcon from "../icons/light.svg";
+import DarkIcon from "../icons/dark.svg";
+import AutoIcon from "../icons/auto.svg";
 import StopIcon from "../icons/pause.svg";
 import McpToolIcon from "../icons/tool.svg";
+import HeadphoneIcon from "../icons/headphone.svg";
 import {
   BOT_HELLO,
   ChatMessage,
@@ -572,254 +577,256 @@ export function ChatActions(props: {
   }, [chatStore, currentModel, models, session]);
 
   return (
-    <div></div>
-    // <div className={styles["chat-input-actions"]}>
-    //   <>
-    //     {couldStop && (
-    //       <ChatAction
-    //         onClick={stopAll}
-    //         text={Locale.Chat.InputActions.Stop}
-    //         icon={<StopIcon />}
-    //       />
-    //     )}
-    //     {!props.hitBottom && (
-    //       <ChatAction
-    //         onClick={props.scrollToBottom}
-    //         text={Locale.Chat.InputActions.ToBottom}
-    //         icon={<BottomIcon />}
-    //       />
-    //     )}
-    //     {props.hitBottom && (
-    //       <ChatAction
-    //         onClick={props.showPromptModal}
-    //         text={Locale.Chat.InputActions.Settings}
-    //         icon={<SettingsIcon />}
-    //       />
-    //     )}
+    // <div></div>
+    <div className={styles["chat-input-actions"]}>
+      <>
+        {/* {couldStop && (
+          <ChatAction
+            onClick={stopAll}
+            text={Locale.Chat.InputActions.Stop}
+            icon={<StopIcon />}
+          />
+        )}
+        {!props.hitBottom && (
+          <ChatAction
+            onClick={props.scrollToBottom}
+            text={Locale.Chat.InputActions.ToBottom}
+            icon={<BottomIcon />}
+          />
+        )} */}
+        {/* {props.hitBottom && (
+          <ChatAction
+            onClick={props.showPromptModal}
+            text={Locale.Chat.InputActions.Settings}
+            icon={<SettingsIcon />}
+          />
+        )}
 
-    //     {showUploadImage && (
-    //       <ChatAction
-    //         onClick={props.uploadImage}
-    //         text={Locale.Chat.InputActions.UploadImage}
-    //         icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}
-    //       />
-    //     )}
-    //     <ChatAction
-    //       onClick={nextTheme}
-    //       text={Locale.Chat.InputActions.Theme[theme]}
-    //       icon={
-    //         <>
-    //           {theme === Theme.Auto ? (
-    //             <AutoIcon />
-    //           ) : theme === Theme.Light ? (
-    //             <LightIcon />
-    //           ) : theme === Theme.Dark ? (
-    //             <DarkIcon />
-    //           ) : null}
-    //         </>
-    //       }
-    //     />
+        {showUploadImage && (
+          <ChatAction
+            onClick={props.uploadImage}
+            text={Locale.Chat.InputActions.UploadImage}
+            icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}
+          />
+        )} */}
+        <ChatAction
+          onClick={nextTheme}
+          text={Locale.Chat.InputActions.Theme[theme]}
+          icon={
+            <>
+              {theme === Theme.Auto ? (
+                <AutoIcon />
+              ) : theme === Theme.Light ? (
+                <LightIcon />
+              ) : theme === Theme.Dark ? (
+                <DarkIcon />
+              ) : null}
+            </>
+          }
+        />
 
-    //     <ChatAction
-    //       onClick={props.showPromptHints}
-    //       text={Locale.Chat.InputActions.Prompt}
-    //       icon={<PromptIcon />}
-    //     />
+        {/* <ChatAction
+          onClick={props.showPromptHints}
+          text={Locale.Chat.InputActions.Prompt}
+          icon={<PromptIcon />}
+        /> */}
 
-    //     <ChatAction
-    //       onClick={() => {
-    //         navigate(Path.Masks);
-    //       }}
-    //       text={Locale.Chat.InputActions.Masks}
-    //       icon={<MaskIcon />}
-    //     />
+        {/* <ChatAction
+          onClick={() => {
+            navigate(Path.Masks);
+          }}
+          text={Locale.Chat.InputActions.Masks}
+          icon={<MaskIcon />}
+        /> */}
 
-    //     <ChatAction
-    //       text={Locale.Chat.InputActions.Clear}
-    //       icon={<BreakIcon />}
-    //       onClick={() => {
-    //         chatStore.updateTargetSession(session, (session) => {
-    //           if (session.clearContextIndex === session.messages.length) {
-    //             session.clearContextIndex = undefined;
-    //           } else {
-    //             session.clearContextIndex = session.messages.length;
-    //             session.memoryPrompt = ""; // will clear memory
-    //           }
-    //         });
-    //       }}
-    //     />
+        <ChatAction
+          text={Locale.Chat.InputActions.Clear}
+          icon={<BreakIcon />}
+          onClick={() => {
+            chatStore.updateTargetSession(session, (session) => {
+              console.log("clear", session);
+              if (session.clearContextIndex === session.messages.length) {
+                session.clearContextIndex = undefined;
+                session.messages = [];
+              } else {
+                session.clearContextIndex = session.messages.length;
+                session.memoryPrompt = ""; // will clear memory
+              }
+            });
+          }}
+        />
 
-    //     <ChatAction
-    //       onClick={() => setShowModelSelector(true)}
-    //       text={currentModelName}
-    //       icon={<RobotIcon />}
-    //     />
+        {/* <ChatAction
+          onClick={() => setShowModelSelector(true)}
+          text={currentModelName}
+          icon={<RobotIcon />}
+        /> */}
 
-    //     {showModelSelector && (
-    //       <Selector
-    //         defaultSelectedValue={`${currentModel}@${currentProviderName}`}
-    //         items={models.map((m) => ({
-    //           title: `${m.displayName}${
-    //             m?.provider?.providerName
-    //               ? " (" + m?.provider?.providerName + ")"
-    //               : ""
-    //           }`,
-    //           value: `${m.name}@${m?.provider?.providerName}`,
-    //         }))}
-    //         onClose={() => setShowModelSelector(false)}
-    //         onSelection={(s) => {
-    //           if (s.length === 0) return;
-    //           const [model, providerName] = getModelProvider(s[0]);
-    //           chatStore.updateTargetSession(session, (session) => {
-    //             session.mask.modelConfig.model = model as ModelType;
-    //             session.mask.modelConfig.providerName =
-    //               providerName as ServiceProvider;
-    //             session.mask.syncGlobalConfig = false;
-    //           });
-    //           if (providerName == "ByteDance") {
-    //             const selectedModel = models.find(
-    //               (m) =>
-    //                 m.name == model &&
-    //                 m?.provider?.providerName == providerName,
-    //             );
-    //             showToast(selectedModel?.displayName ?? "");
-    //           } else {
-    //             showToast(model);
-    //           }
-    //         }}
-    //       />
-    //     )}
+        {/* {showModelSelector && (
+          <Selector
+            defaultSelectedValue={`${currentModel}@${currentProviderName}`}
+            items={models.map((m) => ({
+              title: `${m.displayName}${
+                m?.provider?.providerName
+                  ? " (" + m?.provider?.providerName + ")"
+                  : ""
+              }`,
+              value: `${m.name}@${m?.provider?.providerName}`,
+            }))}
+            onClose={() => setShowModelSelector(false)}
+            onSelection={(s) => {
+              if (s.length === 0) return;
+              const [model, providerName] = getModelProvider(s[0]);
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.modelConfig.model = model as ModelType;
+                session.mask.modelConfig.providerName =
+                  providerName as ServiceProvider;
+                session.mask.syncGlobalConfig = false;
+              });
+              if (providerName == "ByteDance") {
+                const selectedModel = models.find(
+                  (m) =>
+                    m.name == model &&
+                    m?.provider?.providerName == providerName,
+                );
+                showToast(selectedModel?.displayName ?? "");
+              } else {
+                showToast(model);
+              }
+            }}
+          />
+        )} */}
 
-    //     {supportsCustomSize(currentModel) && (
-    //       <ChatAction
-    //         onClick={() => setShowSizeSelector(true)}
-    //         text={currentSize}
-    //         icon={<SizeIcon />}
-    //       />
-    //     )}
+        {/* {supportsCustomSize(currentModel) && (
+          <ChatAction
+            onClick={() => setShowSizeSelector(true)}
+            text={currentSize}
+            icon={<SizeIcon />}
+          />
+        )}
 
-    //     {showSizeSelector && (
-    //       <Selector
-    //         defaultSelectedValue={currentSize}
-    //         items={modelSizes.map((m) => ({
-    //           title: m,
-    //           value: m,
-    //         }))}
-    //         onClose={() => setShowSizeSelector(false)}
-    //         onSelection={(s) => {
-    //           if (s.length === 0) return;
-    //           const size = s[0];
-    //           chatStore.updateTargetSession(session, (session) => {
-    //             session.mask.modelConfig.size = size;
-    //           });
-    //           showToast(size);
-    //         }}
-    //       />
-    //     )}
+        {showSizeSelector && (
+          <Selector
+            defaultSelectedValue={currentSize}
+            items={modelSizes.map((m) => ({
+              title: m,
+              value: m,
+            }))}
+            onClose={() => setShowSizeSelector(false)}
+            onSelection={(s) => {
+              if (s.length === 0) return;
+              const size = s[0];
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.modelConfig.size = size;
+              });
+              showToast(size);
+            }}
+          />
+        )} */}
 
-    //     {isDalle3(currentModel) && (
-    //       <ChatAction
-    //         onClick={() => setShowQualitySelector(true)}
-    //         text={currentQuality}
-    //         icon={<QualityIcon />}
-    //       />
-    //     )}
+        {/* {isDalle3(currentModel) && (
+          <ChatAction
+            onClick={() => setShowQualitySelector(true)}
+            text={currentQuality}
+            icon={<QualityIcon />}
+          />
+        )}
 
-    //     {showQualitySelector && (
-    //       <Selector
-    //         defaultSelectedValue={currentQuality}
-    //         items={dalle3Qualitys.map((m) => ({
-    //           title: m,
-    //           value: m,
-    //         }))}
-    //         onClose={() => setShowQualitySelector(false)}
-    //         onSelection={(q) => {
-    //           if (q.length === 0) return;
-    //           const quality = q[0];
-    //           chatStore.updateTargetSession(session, (session) => {
-    //             session.mask.modelConfig.quality = quality;
-    //           });
-    //           showToast(quality);
-    //         }}
-    //       />
-    //     )}
+        {showQualitySelector && (
+          <Selector
+            defaultSelectedValue={currentQuality}
+            items={dalle3Qualitys.map((m) => ({
+              title: m,
+              value: m,
+            }))}
+            onClose={() => setShowQualitySelector(false)}
+            onSelection={(q) => {
+              if (q.length === 0) return;
+              const quality = q[0];
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.modelConfig.quality = quality;
+              });
+              showToast(quality);
+            }}
+          />
+        )} */}
 
-    //     {isDalle3(currentModel) && (
-    //       <ChatAction
-    //         onClick={() => setShowStyleSelector(true)}
-    //         text={currentStyle}
-    //         icon={<StyleIcon />}
-    //       />
-    //     )}
+        {/* {isDalle3(currentModel) && (
+          <ChatAction
+            onClick={() => setShowStyleSelector(true)}
+            text={currentStyle}
+            icon={<StyleIcon />}
+          />
+        )}
 
-    //     {showStyleSelector && (
-    //       <Selector
-    //         defaultSelectedValue={currentStyle}
-    //         items={dalle3Styles.map((m) => ({
-    //           title: m,
-    //           value: m,
-    //         }))}
-    //         onClose={() => setShowStyleSelector(false)}
-    //         onSelection={(s) => {
-    //           if (s.length === 0) return;
-    //           const style = s[0];
-    //           chatStore.updateTargetSession(session, (session) => {
-    //             session.mask.modelConfig.style = style;
-    //           });
-    //           showToast(style);
-    //         }}
-    //       />
-    //     )}
+        {showStyleSelector && (
+          <Selector
+            defaultSelectedValue={currentStyle}
+            items={dalle3Styles.map((m) => ({
+              title: m,
+              value: m,
+            }))}
+            onClose={() => setShowStyleSelector(false)}
+            onSelection={(s) => {
+              if (s.length === 0) return;
+              const style = s[0];
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.modelConfig.style = style;
+              });
+              showToast(style);
+            }}
+          />
+        )} */}
 
-    //     {showPlugins(currentProviderName, currentModel) && (
-    //       <ChatAction
-    //         onClick={() => {
-    //           if (pluginStore.getAll().length == 0) {
-    //             navigate(Path.Plugins);
-    //           } else {
-    //             setShowPluginSelector(true);
-    //           }
-    //         }}
-    //         text={Locale.Plugin.Name}
-    //         icon={<PluginIcon />}
-    //       />
-    //     )}
-    //     {showPluginSelector && (
-    //       <Selector
-    //         multiple
-    //         defaultSelectedValue={chatStore.currentSession().mask?.plugin}
-    //         items={pluginStore.getAll().map((item) => ({
-    //           title: `${item?.title}@${item?.version}`,
-    //           value: item?.id,
-    //         }))}
-    //         onClose={() => setShowPluginSelector(false)}
-    //         onSelection={(s) => {
-    //           chatStore.updateTargetSession(session, (session) => {
-    //             session.mask.plugin = s as string[];
-    //           });
-    //         }}
-    //       />
-    //     )}
+        {/* {showPlugins(currentProviderName, currentModel) && (
+          <ChatAction
+            onClick={() => {
+              if (pluginStore.getAll().length == 0) {
+                navigate(Path.Plugins);
+              } else {
+                setShowPluginSelector(true);
+              }
+            }}
+            text={Locale.Plugin.Name}
+            icon={<PluginIcon />}
+          />
+        )} */}
+        {/* {showPluginSelector && (
+          <Selector
+            multiple
+            defaultSelectedValue={chatStore.currentSession().mask?.plugin}
+            items={pluginStore.getAll().map((item) => ({
+              title: `${item?.title}@${item?.version}`,
+              value: item?.id,
+            }))}
+            onClose={() => setShowPluginSelector(false)}
+            onSelection={(s) => {
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.plugin = s as string[];
+              });
+            }}
+          />
+        )} */}
 
-    //     {!isMobileScreen && (
-    //       <ChatAction
-    //         onClick={() => props.setShowShortcutKeyModal(true)}
-    //         text={Locale.Chat.ShortcutKey.Title}
-    //         icon={<ShortcutkeyIcon />}
-    //       />
-    //     )}
-    //     {!isMobileScreen && <MCPAction />}
-    //   </>
-    //   <div className={styles["chat-input-actions-end"]}>
-    //     {config.realtimeConfig.enable && (
-    //       <ChatAction
-    //         onClick={() => props.setShowChatSidePanel(true)}
-    //         text={"Realtime Chat"}
-    //         icon={<HeadphoneIcon />}
-    //       />
-    //     )}
-    //   </div>
-    // </div>
+        {/* {!isMobileScreen && (
+          <ChatAction
+            onClick={() => props.setShowShortcutKeyModal(true)}
+            text={Locale.Chat.ShortcutKey.Title}
+            icon={<ShortcutkeyIcon />}
+          />
+        )}
+        {!isMobileScreen && <MCPAction />} */}
+      </>
+      <div className={styles["chat-input-actions-end"]}>
+        {config.realtimeConfig.enable && (
+          <ChatAction
+            onClick={() => props.setShowChatSidePanel(true)}
+            text={"Realtime Chat"}
+            icon={<HeadphoneIcon />}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 

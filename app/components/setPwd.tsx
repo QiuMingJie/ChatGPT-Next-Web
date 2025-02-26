@@ -19,12 +19,12 @@ import {
   trackAuthorizationPageButtonToCPaymentClick,
 } from "../utils/auth-settings-events";
 import clsx from "clsx";
-import { userLogin } from "@/app/components/service";
+import { userChangePassword } from "@/app/components/service";
 
 const storage = safeLocalStorage();
 const crypto = require("crypto");
 
-export function AuthPage() {
+export function AuthPages() {
   const navigate = useNavigate();
   const accessStore = useAccessStore();
   const goHome = () => navigate(Path.Home);
@@ -36,41 +36,49 @@ export function AuthPage() {
     });
   }
 
-  const goChat = async () => {
-    if (accessStore.userName === "") {
-      showToast("账户不能为空");
-      return;
-    }
-    if (accessStore.userPwd === "") {
+  const changePwd = async () => {
+    const { userId, userPwd, userNewPwd, userConfirmPwd } = accessStore;
+    if (userPwd === "") {
       showToast("密码不能为空");
       return;
+    } else if (userNewPwd === "") {
+      showToast("新密码不能为空");
+      return;
+    } else if (userConfirmPwd === "") {
+      showToast("确认密码不能为空");
+      return;
+    } else if (userNewPwd !== userConfirmPwd) {
+      showToast("新密码和确认密码不一致");
+      return;
     }
-    // 请求登录接口
-    const hashPwd = await hashPassword(accessStore.userPwd);
-    const params = {
-      createTime: Date.now(),
-      remark: "",
-      userId: accessStore.userName,
-      userName: accessStore.userName,
-      userPassword: hashPwd,
-      userPhone: "",
-      userType: "",
-    };
-    userLogin(params)
-      .then((res: any) => {
-        if (res.code === "200") {
-          accessStore.update((access) => {
-            access.userName = "";
-            access.userPwd = res.data.userPassword;
-            access.userId = res.data.userId;
-            access.accessCode = "1";
-          });
-          navigate(Path.Home);
-        } else if (res.status == "300") {
-          showToast("密码错误");
-        }
-      })
-      .catch(() => {});
+    if (userNewPwd === userConfirmPwd) {
+      const hashOldPwd = await hashPassword(userPwd);
+      const hashNewPwd = await hashPassword(userNewPwd);
+      const params = {
+        userId: userId,
+        newPassword: hashNewPwd,
+        oldPassword: hashOldPwd,
+      };
+      // 请求修改密码接口
+      userChangePassword(params)
+        .then((res: any) => {
+          console.log(res);
+          if (res.code === "200") {
+            accessStore.update((access) => {
+              access.userName = "";
+              access.userPwd = "";
+              access.userId = "";
+              access.accessCode = "";
+              access.userNewPwd = "";
+              access.userConfirmPwd = "";
+            });
+            navigate(Path.Auth);
+          } else if (res.status == "300") {
+            showToast("useId不存在或原密码错误");
+          }
+        })
+        .catch(() => {});
+    }
   };
   const goSaas = () => {
     trackAuthorizationPageButtonToCPaymentClick();
@@ -99,7 +107,7 @@ export function AuthPage() {
       <div className={styles["auth-header"]}>
         <IconButton
           icon={<LeftIcon />}
-          text={Locale.Auth.Return}
+          text={Locale.SetPWd.Return}
           onClick={() => navigate(Path.Home)}
         ></IconButton>
       </div>
@@ -107,10 +115,9 @@ export function AuthPage() {
         <BotIcon />
       </div>
 
-      <div className={styles["auth-title"]}>{Locale.Auth.Title}</div>
-      <div className={styles["auth-tips"]}>{Locale.Auth.Tips}</div>
+      <div className={styles["auth-title"]}>{Locale.SetPWd.Title}</div>
 
-      <div style={{ display: "none" }}>
+      {/* <div style={{ display: "none" }}>
         <PasswordInput
           style={{ marginTop: "3vh", marginBottom: "3vh" }}
           aria={Locale.Settings.ShowPassword}
@@ -125,11 +132,11 @@ export function AuthPage() {
             );
           }}
         />
-      </div>
+      </div> */}
 
       {!accessStore.hideUserApiKey ? (
         <>
-          <div style={{ display: "none" }}>
+          {/* <div style={{ display: "none" }}>
             <div className={styles["auth-tips"]}>{Locale.Auth.SubTips}</div>
             <PasswordInput
               style={{ marginTop: "3vh", marginBottom: "3vh" }}
@@ -145,9 +152,9 @@ export function AuthPage() {
                 );
               }}
             />
-          </div>
+          </div> */}
 
-          <div className={"user-input-container"} style={{ marginTop: "3vh" }}>
+          {/* <div className={"user-input-container"} style={{ marginTop: "3vh" }}>
             <IconButton
               style={{ width: "43px", height: "36px" }}
               className="{password-eye}"
@@ -164,9 +171,9 @@ export function AuthPage() {
                 );
               }}
             />
-          </div>
+          </div> */}
           <PasswordInput
-            style={{ marginTop: "3vh", marginBottom: "3vh" }}
+            style={{}}
             aria={Locale.Settings.ShowPassword}
             aria-label={Locale.Settings.Access.User.Password.Placeholder}
             value={accessStore.userPwd}
@@ -179,6 +186,37 @@ export function AuthPage() {
               );
             }}
           />
+          <div style={{ marginTop: "3vh" }}></div>
+          <PasswordInput
+            aria={Locale.Settings.ShowPassword}
+            aria-label={Locale.Settings.Access.User.newPassword.Placeholder}
+            value={accessStore.userNewPwd}
+            type="text"
+            autoComplete="off"
+            placeholder={Locale.Settings.Access.User.newPassword.Placeholder}
+            onChange={(e) => {
+              accessStore.update(
+                (access) => (access.userNewPwd = e.currentTarget.value),
+              );
+            }}
+          />
+          <div style={{ marginTop: "3vh" }}></div>
+          <PasswordInput
+            aria={Locale.Settings.ShowPassword}
+            aria-label={Locale.Settings.Access.User.ConfirmPassword.Placeholder}
+            value={accessStore.userConfirmPwd}
+            type="text"
+            autoComplete="off"
+            placeholder={
+              Locale.Settings.Access.User.ConfirmPassword.Placeholder
+            }
+            onChange={(e) => {
+              accessStore.update(
+                (access) => (access.userConfirmPwd = e.currentTarget.value),
+              );
+            }}
+          />
+          <div style={{ marginTop: "3vh" }}></div>
           {/* <PasswordInput
             style={{ marginTop: "3vh", marginBottom: "3vh" }}
             aria={Locale.Settings.ShowPassword}
@@ -199,7 +237,7 @@ export function AuthPage() {
         <IconButton
           text={Locale.Auth.Confirm}
           type="primary"
-          onClick={goChat}
+          onClick={changePwd}
         />
         {/* <IconButton
           text={Locale.Auth.SaasTips}

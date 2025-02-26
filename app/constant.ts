@@ -52,6 +52,7 @@ export enum Path {
   Artifacts = "/artifacts",
   SearchChat = "/search-chat",
   McpMarket = "/mcp-market",
+  SetPwd = "/set-pwd",
 }
 
 export enum ApiPath {

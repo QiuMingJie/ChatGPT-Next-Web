@@ -11,6 +11,8 @@ import {
 } from "@fortaine/fetch-event-source";
 import { prettyObject } from "./format";
 import { fetch as tauriFetch } from "./stream";
+import { useAccessStore } from "@/app/store";
+import { chatNewTCMchat } from "@/app/components/service";
 
 export function compressImage(file: Blob, maxSize: number): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -272,6 +274,8 @@ export function stream(
         return;
       }
       console.debug("[ChatAPI] end");
+      const controller = new AbortController();
+      options.onController?.(controller);
       finished = true;
       options.onFinish(responseText + remainText, responseRes); // 将res传递给onFinish
     }
@@ -499,6 +503,20 @@ export function streamWithThink(
       }
       console.debug("[ChatAPI] end");
       finished = true;
+      const msg = requestPayload.messages?.[requestPayload.messages.length - 1];
+      const parmPayload = {
+        answer: "",
+        datetime: "",
+        id: "",
+        orgQuestion: typeof msg === "object" ? msg?.content : msg || "",
+        remark: "",
+        toDeepSeekQuestion: JSON.stringify(requestPayload),
+        userId: useAccessStore.getState().userId,
+      };
+      console.debug(1111, parmPayload);
+      chatNewTCMchat(parmPayload).then((res: any) => {
+        console.log(res);
+      });
       options.onFinish(responseText + remainText, responseRes);
     }
   };
