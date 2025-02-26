@@ -22,6 +22,10 @@ const cn = {
     TopTips:
       "🥳 NextChat AI 首发优惠，立刻解锁 OpenAI o1, GPT-4o, Claude-3.5 等最新大模型",
   },
+  SetPWd: {
+    Return: "返回",
+    Title: "修改账号密码",
+  },
   ChatItem: {
     ChatItemCount: (count: number) => `${count} 条对话`,
   },
@@ -380,6 +384,16 @@ const cn = {
           Title: "密码",
           SubTitle: "请输入密码",
           Placeholder: "请输入密码",
+        },
+        newPassword: {
+          Title: "新密码",
+          SubTitle: "请输入新密码",
+          Placeholder: "请输入新密码",
+        },
+        ConfirmPassword: {
+          Title: "确认密码",
+          SubTitle: "请确认新密码",
+          Placeholder: "请确认新密码",
         },
       },
       Google: {

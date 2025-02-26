@@ -94,6 +94,8 @@ const DEFAULT_ACCESS_STATE = {
   userName: "",
   userPwd: "",
   userId: "",
+  userNewPwd: "",
+  userConfirmPwd: "",
 
   // anthropic
   anthropicUrl: DEFAULT_ANTHROPIC_URL,

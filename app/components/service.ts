@@ -23,3 +23,10 @@ export async function userLogin(data: any): Promise<any> {
     data,
   });
 }
+
+export async function userChangePassword(data: any): Promise<any> {
+  return request(`${CHAT_NEW_TCM}/ios/class/diagnosis/user/changePassword`, {
+    method: "POST",
+    data,
+  });
+}
