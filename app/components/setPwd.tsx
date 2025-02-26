@@ -11,7 +11,7 @@ import Logo from "../icons/logo.svg";
 import { useMobileScreen } from "@/app/utils";
 import BotIcon from "../icons/bot.svg";
 import { getClientConfig } from "../config/client";
-import { PasswordInput } from "./ui-lib";
+import { PasswordInput, showToast } from "./ui-lib";
 import LeftIcon from "@/app/icons/left.svg";
 import { safeLocalStorage } from "@/app/utils";
 import {
@@ -38,6 +38,19 @@ export function AuthPages() {
 
   const changePwd = async () => {
     const { userId, userPwd, userNewPwd, userConfirmPwd } = accessStore;
+    if (userPwd === "") {
+      showToast("密码不能为空");
+      return;
+    } else if (userNewPwd === "") {
+      showToast("新密码不能为空");
+      return;
+    } else if (userConfirmPwd === "") {
+      showToast("确认密码不能为空");
+      return;
+    } else if (userNewPwd !== userConfirmPwd) {
+      showToast("新密码和确认密码不一致");
+      return;
+    }
     if (userNewPwd === userConfirmPwd) {
       const hashOldPwd = await hashPassword(userPwd);
       const hashNewPwd = await hashPassword(userNewPwd);
@@ -60,6 +73,8 @@ export function AuthPages() {
               access.userConfirmPwd = "";
             });
             navigate(Path.Auth);
+          } else if (res.status == "300") {
+            showToast("useId不存在或原密码错误");
           }
         })
         .catch(() => {});

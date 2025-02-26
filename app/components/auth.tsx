@@ -11,7 +11,7 @@ import Logo from "../icons/logo.svg";
 import { useMobileScreen } from "@/app/utils";
 import BotIcon from "../icons/bot.svg";
 import { getClientConfig } from "../config/client";
-import { PasswordInput } from "./ui-lib";
+import { PasswordInput, showToast } from "./ui-lib";
 import LeftIcon from "@/app/icons/left.svg";
 import { safeLocalStorage } from "@/app/utils";
 import {
@@ -37,7 +37,14 @@ export function AuthPage() {
   }
 
   const goChat = async () => {
-    if (accessStore.userPwd === "" && accessStore.userName === "") return;
+    if (accessStore.userName === "") {
+      showToast("账户不能为空");
+      return;
+    }
+    if (accessStore.userPwd === "") {
+      showToast("密码不能为空");
+      return;
+    }
     // 请求登录接口
     const hashPwd = await hashPassword(accessStore.userPwd);
     const params = {
@@ -51,7 +58,6 @@ export function AuthPage() {
     };
     userLogin(params)
       .then((res: any) => {
-        console.log(res);
         if (res.code === "200") {
           accessStore.update((access) => {
             access.userName = "";
@@ -60,6 +66,8 @@ export function AuthPage() {
             access.accessCode = "1";
           });
           navigate(Path.Home);
+        } else if (res.status == "300") {
+          showToast("密码错误");
         }
       })
       .catch(() => {});
