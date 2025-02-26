@@ -28,9 +28,6 @@ import ConfirmIcon from "../icons/confirm.svg";
 import CloseIcon from "../icons/close.svg";
 import CancelIcon from "../icons/cancel.svg";
 
-import LightIcon from "../icons/light.svg";
-import DarkIcon from "../icons/dark.svg";
-import AutoIcon from "../icons/auto.svg";
 import StopIcon from "../icons/pause.svg";
 import McpToolIcon from "../icons/tool.svg";
 import HeadphoneIcon from "../icons/headphone.svg";
@@ -609,7 +606,7 @@ export function ChatActions(props: {
             icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}
           />
         )} */}
-        <ChatAction
+        {/* <ChatAction
           onClick={nextTheme}
           text={Locale.Chat.InputActions.Theme[theme]}
           icon={
@@ -623,7 +620,7 @@ export function ChatActions(props: {
               ) : null}
             </>
           }
-        />
+        /> */}
 
         {/* <ChatAction
           onClick={props.showPromptHints}
