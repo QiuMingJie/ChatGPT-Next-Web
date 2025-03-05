@@ -1083,6 +1083,7 @@ function _Chat() {
   };
 
   const doSubmit = (userInput: string) => {
+    console.log(3333, userInput);
     if (userInput.trim() === "" && isEmpty(attachImages)) return;
     const matchCommand = chatCommands.match(userInput);
     console.info(matchCommand);
@@ -1099,6 +1100,7 @@ function _Chat() {
       .then(() => setIsLoading(false));
     setAttachImages([]);
     chatStore.setLastInput(userInput);
+    chatStore.setLastTime(Date.now());
     setUserInput("");
     setPromptHints([]);
     if (!isMobileScreen) inputRef.current?.focus();

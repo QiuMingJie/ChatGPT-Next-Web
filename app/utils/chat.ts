@@ -13,7 +13,7 @@ import { prettyObject } from "./format";
 import { fetch as tauriFetch } from "./stream";
 import { useAccessStore } from "@/app/store";
 import { chatNewTCMchat } from "@/app/components/service";
-
+import { useChatStore } from "@/app/store";
 export function compressImage(file: Blob, maxSize: number): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -430,6 +430,18 @@ export function streamWithThink(
 
   // start animaion
   animateResponseText();
+  function formatTimestamp(timestamp: any) {
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 月份从 0 开始，需要加 1
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
 
   const finish = () => {
     if (!finished) {
@@ -503,17 +515,19 @@ export function streamWithThink(
       }
       console.debug("[ChatAPI] end");
       finished = true;
+      const chatStore = useChatStore.getState();
+
       const msg = requestPayload.messages?.[requestPayload.messages.length - 1];
       const parmPayload = {
-        answer: "",
-        datetime: "",
+        answer: responseText + remainText,
+        datetime: formatTimestamp(chatStore.lastTime),
         id: "",
         orgQuestion: typeof msg === "object" ? msg?.content : msg || "",
         remark: "",
         toDeepSeekQuestion: JSON.stringify(requestPayload),
         userId: useAccessStore.getState().userId,
       };
-      console.debug(1111, parmPayload);
+      console.debug(1111, msg);
       chatNewTCMchat(parmPayload).then((res: any) => {
         console.log(res);
       });
