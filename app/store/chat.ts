@@ -373,6 +373,7 @@ const DEFAULT_CHAT_STATE = {
   sessions: [...list],
   currentSessionIndex: 0,
   lastInput: "",
+  lastTime: "",
 };
 
 export const useChatStore = createPersistStore(
@@ -966,6 +967,11 @@ export const useChatStore = createPersistStore(
       setLastInput(lastInput: string) {
         set({
           lastInput,
+        });
+      },
+      setLastTime(lastTime: any) {
+        set({
+          lastTime,
         });
       },
 
