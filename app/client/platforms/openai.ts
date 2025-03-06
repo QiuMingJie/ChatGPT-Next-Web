@@ -27,7 +27,7 @@ import {
 } from "@/app/utils/chat";
 import { cloudflareAIGatewayUrl } from "@/app/utils/cloudflare";
 import { ModelSize, DalleQuality, DalleStyle } from "@/app/typing";
-
+import { showToast } from "@/app/components/ui-lib";
 import {
   ChatOptions,
   getHeaders,
@@ -347,6 +347,9 @@ export class ChatGPTApi implements LLMApi {
           );
         chatNewTCMchat(parmPayload)
           .then((res: any) => {
+            if (res.status == "300") {
+              showToast(res.msg);
+            }
             console.log(res);
           })
           .catch(() => {});

@@ -20,7 +20,6 @@ import {
 } from "../utils/auth-settings-events";
 import clsx from "clsx";
 import { userChangePassword } from "@/app/components/service";
-
 const storage = safeLocalStorage();
 const crypto = require("crypto");
 
