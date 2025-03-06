@@ -68,6 +68,8 @@ export function AuthPage() {
           navigate(Path.Home);
         } else if (res.status == "300") {
           showToast("密码错误");
+        } else if (res.code != "200") {
+          showToast(res.msg);
         }
       })
       .catch(() => {});

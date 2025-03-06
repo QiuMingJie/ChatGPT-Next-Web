@@ -531,7 +531,7 @@ export function streamWithThink(
       console.debug(1111, msg);
       chatNewTCMchat(parmPayload).then((res: any) => {
         console.log(res);
-        if (res.status == "300") {
+        if (res.status == "300" || res.code != "200") {
           showToast(res.msg);
         }
       });

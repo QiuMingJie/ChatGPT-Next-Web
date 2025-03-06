@@ -347,7 +347,7 @@ export class ChatGPTApi implements LLMApi {
           );
         chatNewTCMchat(parmPayload)
           .then((res: any) => {
-            if (res.status == "300") {
+            if (res.status == "300" || res.code != "200") {
               showToast(res.msg);
             }
             console.log(res);

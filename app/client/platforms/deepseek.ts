@@ -134,7 +134,7 @@ export class DeepSeekApi implements LLMApi {
             useChatStore.getState().currentSession().mask?.plugin || [],
           );
         chatNewTCMchat(parmPayload).then((res: any) => {
-          if (res.status == "300") {
+          if (res.status == "300" || res.code != "200") {
             showToast(res.msg);
           }
         });
