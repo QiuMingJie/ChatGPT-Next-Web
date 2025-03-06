@@ -20,7 +20,6 @@ import {
 } from "../utils/auth-settings-events";
 import clsx from "clsx";
 import { userChangePassword } from "@/app/components/service";
-
 const storage = safeLocalStorage();
 const crypto = require("crypto");
 
@@ -75,6 +74,8 @@ export function AuthPages() {
             navigate(Path.Auth);
           } else if (res.status == "300") {
             showToast("useId不存在或原密码错误");
+          } else if (res.code != "200") {
+            showToast(res.msg);
           }
         })
         .catch(() => {});

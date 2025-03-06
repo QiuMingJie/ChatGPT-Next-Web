@@ -5,6 +5,7 @@ import {
 } from "@/app/constant";
 import { RequestMessage } from "@/app/client/api";
 import Locale from "@/app/locales";
+import { showToast } from "@/app/components/ui-lib";
 import {
   EventStreamContentType,
   fetchEventSource,
@@ -530,6 +531,9 @@ export function streamWithThink(
       console.debug(1111, msg);
       chatNewTCMchat(parmPayload).then((res: any) => {
         console.log(res);
+        if (res.status == "300" || res.code != "200") {
+          showToast(res.msg);
+        }
       });
       options.onFinish(responseText + remainText, responseRes);
     }

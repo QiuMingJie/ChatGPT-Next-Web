@@ -25,6 +25,7 @@ import {
 import { RequestPayload } from "./openai";
 import { fetch } from "@/app/utils/stream";
 import { chatNewTCMchat } from "@/app/components/service";
+import { showToast } from "@/app/components/ui-lib";
 export class DeepSeekApi implements LLMApi {
   private disableListModels = true;
 
@@ -133,7 +134,9 @@ export class DeepSeekApi implements LLMApi {
             useChatStore.getState().currentSession().mask?.plugin || [],
           );
         chatNewTCMchat(parmPayload).then((res: any) => {
-          console.log(res);
+          if (res.status == "300" || res.code != "200") {
+            showToast(res.msg);
+          }
         });
         return streamWithThink(
           chatPath,
