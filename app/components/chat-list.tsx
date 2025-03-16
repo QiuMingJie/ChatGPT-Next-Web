@@ -36,10 +36,17 @@ export function ChatItem(props: {
       draggableRef.current?.scrollIntoView({
         block: "center",
       });
+      window.sessionStorage.setItem("chatType", props.title);
     }
   }, [props.selected]);
 
   const { pathname: currentPath } = useLocation();
+  const handleClick = (event: any) => {
+    if (props.onClick) {
+      window.sessionStorage.setItem("chatType", props.title);
+      props.onClick();
+    }
+  };
   return (
     <Draggable draggableId={`${props.id}`} index={props.index}>
       {(provided) => (
@@ -53,7 +60,10 @@ export function ChatItem(props: {
                 props.selected &&
                 (currentPath === Path.Chat || currentPath === Path.Home),
             })}
-            onClick={props.onClick}
+            // onClick={
+            //   props.onClick
+            // }
+            onClick={handleClick}
             ref={(ele) => {
               draggableRef.current = ele;
               provided.innerRef(ele);
@@ -87,17 +97,6 @@ export function ChatItem(props: {
                 </div>
               </div>
             )}
-
-            {/* <div
-            className={styles["chat-item-delete"]}
-            onClickCapture={(e) => {
-              props.onDelete?.();
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <DeleteIcon />
-          </div> */}
           </div>
         </div>
       )}
