@@ -527,7 +527,7 @@ export function streamWithThink(
         remark: "",
         toDeepSeekQuestion: JSON.stringify(requestPayload),
         userId: useAccessStore.getState().userId,
-        useType: sessionStorage.getItem("chatType"),
+        chatType: sessionStorage.getItem("chatType"),
       };
       console.debug(1111, msg);
       chatNewTCMchat(parmPayload).then((res: any) => {
