@@ -178,7 +178,6 @@ export const useAccessStore = createPersistStore(
     },
     edgeVoiceName() {
       this.fetch();
-
       return get().edgeTTSVoiceName;
     },
 
